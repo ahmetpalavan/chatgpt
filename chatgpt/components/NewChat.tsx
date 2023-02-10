@@ -10,7 +10,7 @@ const NewChat = () => {
   const { data: session } = useSession();
 
   const createChat = async () => {
-    const doc = await addDoc(collection(db, "chats", session?.user?.email!, "chats"), {
+    const doc = await addDoc(collection(db, "users", session?.user?.email!, "chats"), {
       users: [session?.user?.email!],
       createdAt: serverTimestamp(),
     });

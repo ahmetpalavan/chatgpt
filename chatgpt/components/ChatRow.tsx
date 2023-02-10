@@ -1,18 +1,41 @@
-/** @format */
-
-import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline";
+import { ChatBubbleLeftIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { collection, deleteDoc, doc } from "firebase/firestore";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
-import React from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useCollection } from "react-firebase-hooks/firestore";
+import { db } from "../firebase";
 
 type Props = {
   id: string;
 };
 
 const ChatRow = ({ id }: Props) => {
+  const pathname = usePathname();
+  const router = useRouter();
+  const { data: ahmet } = useSession();
+  const [active, setActive] = useState(false);
+
+  const [messages] = useCollection(collection(db, "users", ahmet?.user?.email!, "chats", id, "messages"));
+
+  useEffect(() => {
+    if (!pathname) return;
+    setActive(pathname.includes(id));
+  }, [pathname]);
+
+  const removeChat = async () => {
+    await deleteDoc(doc(db, "users", ahmet?.user?.email!, "chats", id));
+    router.replace("/");
+  };
+
   return (
-  <Link href={`/chat/${id}`}>
-    <ChatBubbleLeftIcon className="h-5 w-5" />
-  </Link> )
+    <Link href={`/chat/${id}`} className={`chatRow justify-center ${active && "bg-gray-700/70"}`}>
+      <ChatBubbleLeftIcon className="h-5 w-5" />
+      <p className="flex-1 hidden truncate md:inline-flex">{messages?.docs[messages?.docs.length - 1]?.data().text || "New Chat"}</p>
+      <TrashIcon onClick={removeChat} className="h-5 w-5 text-gray-700 hover:text-red-700 " />
+    </Link>
+  );
 };
 
 export default ChatRow;

@@ -1,8 +1,20 @@
 import React from 'react'
+import Chat from '../../../components/Chat'
+import ChatInput from '../../../components/ChatInput'
 
-const ChatPage = () => {
+type Props = {
+  params: {
+    id : string
+  }
+}
+
+const ChatPage = ({params: {id}}: Props) => {
+  
   return (
-    <div>page</div>
+    <div className='flex flex-col h-screen overflow-hidden'>
+      <Chat chatId={id}  />
+      <ChatInput chatId={id} />
+    </div>
   )
 }
 

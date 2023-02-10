@@ -1,15 +1,15 @@
 "use client";
 
-import { collection } from "firebase/firestore";
+import { collection, orderBy, query } from "firebase/firestore";
 import { useSession, signOut } from "next-auth/react";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { db } from "../firebase";
 import ChatRow from "./ChatRow";
 import NewChat from "./NewChat";
 
-const Sidebar = () => {
+const Sidebar = ( ) => {
   const { data: ahmet } = useSession();
-  const [ chats, loading ,error] = useCollection(ahmet && collection(db, "users", ahmet.user?.email!, "chats"));
+  const [chats, loading, error] = useCollection(ahmet && query(collection(db, "users", ahmet.user?.email!, "chats"), orderBy("createdAt", "asc") ));
   console.log(chats);
 
   return (
@@ -18,9 +18,11 @@ const Sidebar = () => {
         <div>
           <NewChat />
           <div>{/* Model Selection  */}</div>
-          {chats?.docs.map((chat: any) => (
-            <ChatRow key={chat.id} id={chat.id} />
-          ))}
+          <div>
+            {chats?.docs.map((chat) => (
+              <ChatRow key={chat.id} id={chat.id} />
+            ))}
+          </div>
         </div>
       </div>
       {ahmet && (
