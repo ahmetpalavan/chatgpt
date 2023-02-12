@@ -4,6 +4,7 @@ import { authOptions } from "../pages/api/auth/[...nextauth]";
 import Login from "../components/Login";
 import Sidebar from "../components/SideBar";
 import { getServerSession } from "next-auth";
+import ClientProvider from "../components/ClientProvider";
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(authOptions);
@@ -22,6 +23,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               <div className="bg-[#202123] max-w-xs md:h-screen  md:overflow-y-auto md:min-w-[20rem]">
                 <Sidebar />
               </div>
+              <ClientProvider />
               {/* Client Provider - Notification */}
               <div className="bg-[#343541] flex-1">{children}</div>
             </div>
