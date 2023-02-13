@@ -9,7 +9,7 @@ type Data = {
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-  const { prompt, chatId, model, ahmet } = req.body;
+  const { prompt, chatId, model, session } = req.body;
   if (!prompt) {
     res.status(400).json({ answer: "No prompt provided" });
     return;
@@ -32,7 +32,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   };
 
   //   add message to firebase
-  await adminDb.collection("users").doc(ahmet?.user?.email).collection("chats").doc(chatId).collection("messages").add(message);
+  await adminDb
+  .collection("users")
+  .doc(session?.user?.email)
+  .collection("chats")
+  .doc(chatId)
+   .collection("messages")
+  .add(message);
 
   res.status(200).json({ answer: message.text });
 }
