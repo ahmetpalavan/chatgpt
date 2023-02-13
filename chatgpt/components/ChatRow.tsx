@@ -14,10 +14,10 @@ type Props = {
 const ChatRow = ({ id }: Props) => {
   const pathname = usePathname();
   const router = useRouter();
-  const { data: ahmet } = useSession();
+  const { data: session } = useSession();
   const [active, setActive] = useState(false);
 
-  const [messages] = useCollection(collection(db, "users", ahmet?.user?.email!, "chats", id, "messages"));
+  const [messages] = useCollection(collection(db, "users", session?.user?.email!, "chats", id, "messages"));
 
   useEffect(() => {
     if (!pathname) return;
@@ -25,7 +25,7 @@ const ChatRow = ({ id }: Props) => {
   }, [pathname]);
 
   const removeChat = async () => {
-    await deleteDoc(doc(db, "users", ahmet?.user?.email!, "chats", id));
+    await deleteDoc(doc(db, "users", session?.user?.email!, "chats", id));
     router.replace("/");
   };
 

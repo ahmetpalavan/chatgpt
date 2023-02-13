@@ -12,6 +12,7 @@ const NewChat = () => {
   const createChat = async () => {
     const doc = await addDoc(collection(db, "users", session?.user?.email!, "chats"), {
       users: [session?.user?.email!],
+      messages: [],
       createdAt: serverTimestamp(),
     });
     router.push(`/chat/${doc.id}`);
