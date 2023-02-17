@@ -6,7 +6,6 @@ import { useSession } from "next-auth/react";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { db } from "../firebase";
 import Message from "./Message";
-import  { useRouter } from "next/navigation";
 
 type Props = {
   chatId: string;

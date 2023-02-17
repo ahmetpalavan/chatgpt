@@ -1,5 +1,3 @@
-/** @format */
-
 "use client";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
@@ -15,10 +13,9 @@ type Props = {
 };
 
 const ChatInput = ({ chatId }: Props) => {
-
-  const {data: model} =  useSWR("model", {
+  const { data: model } = useSWR("model", {
     fallbackData: "text-davinci-003",
-  })
+  });
 
   const [prompt, setPrompt] = useState("");
   const { data: session } = useSession();
@@ -42,7 +39,7 @@ const ChatInput = ({ chatId }: Props) => {
 
     const notification = toast.loading("ChatGPT is thinking...");
 
-    await fetch("/api/askQuestion", { 
+    await fetch("/api/askQuestion", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
