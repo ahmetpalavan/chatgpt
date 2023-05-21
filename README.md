@@ -1,5 +1,3 @@
-Elbette, aşağıda README açıklamasını kullanarak https://github.com/ahmetpalavan/chatgpt deposuna da ekleyebilirsiniz:
-
 ## ChatGPT
 
 ChatGPT, OpenAI tarafından geliştirilen GPT-3 modelini kullanarak otomatik yanıtlar veren bir chatbot ile etkileşime geçebileceğiniz bir web uygulamasıdır.
